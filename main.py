@@ -1,0 +1,6 @@
+skills=input("Enter your skills:")
+loc=input("Enter the cities you want to work:")
+exp=int(input("Enter your work experince:"))
+sal=float(input("Enter your expexted salary:"))
+ind=input("Enter the desired industry where you want to work:")
+cat=input("Enter job category:")
