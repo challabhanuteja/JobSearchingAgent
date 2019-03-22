@@ -48,7 +48,7 @@ class Job_Search:
         em=int(self.wem.get())
         sal=float(self.es.get())
         eq=self.eq.get()
-        df=pd.read_csv('naukriData1.csv')
+        df=pd.read_csv('naukriData.csv')
         df = df.dropna(how='all',axis=0)
         i=0
         print("**********************************************************************************************************")
