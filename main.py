@@ -48,7 +48,7 @@ class Job_Search:
         em=int(self.wem.get())
         sal=float(self.es.get())
         eq=self.eq.get()
-        df=pd.read_csv('naukriData.csv')
+        df=pd.read_csv('naukriData1.csv')
         df = df.dropna(how='all',axis=0)
         i=0
         print("**********************************************************************************************************")
@@ -56,26 +56,26 @@ class Job_Search:
         print("**********************************************************************************************************")
         for index, row in df.iterrows():
             if(str(type(row['keyskills']))!="<class 'float'>" ):
-                keys=row['keyskills'].split('     ')
+                keys=(row['keyskills'].lower()).split('     ')
             if(str(type(row['Location']))!="<class 'float'>" ):
-                locs=re.split("[,    ()]+",row['Location'])
+                locs=re.split("[,    ()]+",row['Location'].lower())
             if(str(type(row['uge']))!="<class 'float'>" ):
-                eduqs=re.split("[,/-]+",row['uge'])
+                eduqs=re.split("[,/-]+",row['uge'].lower())
             if(str(type(row['pge']))!="<class 'float'>" ):
-                eduqs.extend(re.split("[,/-]+",row['pge'] ))
+                eduqs.extend(re.split("[,/-]+",row['pge'].lower() ))
 
             sf=0
-            inter1=set(ks.split(',')).intersection(set(keys))
-            inter2=set(loc.split(',')).intersection(set(locs))
-            inter3=set(set(eq.split(',')).intersection(set(eduqs)))
+            inter1=set((ks.lower()).split(',')).intersection(set(keys))
+            inter2=set((loc.lower()).split(',')).intersection(set(locs))
+            inter3=set(set((eq.lower()).split(',')).intersection(set(eduqs)))
             if(str(type(row['min experince']))!="<class 'float'>" ):
                 exp=int(str(row['min experince'])[0:2])
             if(row['salary']=='null' or row['salary']=='Not Disclosed by Recruiter' or row['salary']=='Best In Industry'):
                 sf=1
             else:
-#                 s=str(row['salary'])[21:29].split(',')
-#                 if(int(''.join(s))<sal*10000):
-                    sf=0
+                # s=str(row['salary'])[21:29].split(',')
+                # if(int(''.join(s))<sal*10000):
+                    pass
             if(len(inter1)>0 and len(inter2)>0 and (ey+(em//12)>=exp) and len(inter3)>0 and sf==1):
 
                 print(str(i+1)+'.)','Job  :',row['Job'])
