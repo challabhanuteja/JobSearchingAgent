@@ -48,53 +48,63 @@ class Job_Search:
         em=int(self.wem.get())
         sal=float(self.es.get())
         eq=self.eq.get()
-        df=pd.read_csv('naukriData1.csv')
+        df=pd.read_csv('naukri_com-job_sample.csv')
         df = df.dropna(how='all',axis=0)
         i=0
         print("**********************************************************************************************************")
         print("                                             Search Results                         ")
         print("**********************************************************************************************************")
         for index, row in df.iterrows():
-            if(str(type(row['keyskills']))!="<class 'float'>" ):
-                keys=(row['keyskills'].lower()).split('     ')
-            if(str(type(row['Location']))!="<class 'float'>" ):
-                locs=re.split("[,    ()]+",row['Location'].lower())
-            if(str(type(row['uge']))!="<class 'float'>" ):
-                eduqs=re.split("[,/-]+",row['uge'].lower())
-            if(str(type(row['pge']))!="<class 'float'>" ):
-                eduqs.extend(re.split("[,/-]+",row['pge'].lower() ))
-
+            if(str(type(row['skills']))!="<class 'float'>" ):
+                keys=row['skills'].lower().split(' ')
+            if(str(type(row['joblocation_address']))!="<class 'float'>" ):
+                locs=row['joblocation_address'].lower().split(',')
+            if(str(type(row['education']))!="<class 'float'>" ):
+                eduqs=re.split("[/: ]+",row['education'].lower())
+                #print(eduqs)
+            k=0
+            if(str(type(row['skills']))!="<class 'float'>"):
+                if('Any'.lower() in row['skills']):
+                    k=1
             sf=0
-            inter1=set((ks.lower()).split(',')).intersection(set(keys))
-            inter2=set((loc.lower()).split(',')).intersection(set(locs))
-            inter3=set(set((eq.lower()).split(',')).intersection(set(eduqs)))
-            if(str(type(row['min experince']))!="<class 'float'>" ):
-                exp=int(str(row['min experince'])[0:2])
-            if(row['salary']=='null' or row['salary']=='Not Disclosed by Recruiter' or row['salary']=='Best In Industry'):
+            inter1=set(ks.lower().split(',')).intersection(set(keys))
+            inter2=set(loc.lower().split(',')).intersection(set(locs))
+            inter3=set(set(eq.lower().split(',')).intersection(set(eduqs)))
+            if(str(row['experience'])[0:2].isdigit()==True):
+                exp=row['experience'][0:2]
+                #print(exp)
+            if(row['payrate']=='null' or row['payrate']=='Not Disclosed by Recruiter' or row['payrate']=='Best In Industry'):
                 sf=1
             else:
-                # s=str(row['salary'])[21:29].split(',')
-                # if(int(''.join(s))<sal*10000):
-                    pass
-            if(len(inter1)>0 and len(inter2)>0 and (ey+(em//12)>=exp) and len(inter3)>0 and sf==1):
+                sa=re.split("[- ,]+",str(row['payrate']))
+                #print(sa[0][0])
+                # nl=[x for x in range(0,10)]
+                #print(sa)
+                if(len(sa)>=3):
+                    if(sa[0].isdigit()==True and sa[1].isdigit()==True and sa[2].isdigit()==True and k==1):
+                        rsal=int(''.join(sa[0:3]))
+                        #print(rsal)
+                        if(sal>rsal):
+                            sf=0
 
-                print(str(i+1)+'.)','Job  :',row['Job'])
+                # s=str(row['salary'])[21:29].split(',')
+                # if(int(''.join(sa[0]))<sal*10000):
+
+            if(len(inter1)>0 and len(inter2)>0  and sf==1 and (ey+(em//12)>=int(exp)) and len(inter3)>0):
+                print(str(i+1)+'.)','Job Title :',row['jobtitle'])
                 print('Company  :',row['company'])
-                print('Location  :',row['Location'])
-                print('Minimum working experince:',row['min experince'])
-                print('Required Key skills:',row['keyskills'])
-                print('Role  :',row['role'])
-                print('Role category :',row['role category'])
-                print('Employement type :',row['employement type'])
-                print(row['functional area'])
-                print('Salary:',row['salary'])
+                print('Location  :',row['joblocation_address'])
+                print('Minimum working experince:',row['experience'])
+                print('Required Key skills:'+str(row['skills']))
+                print('Salary:',row['payrate'])
                 print('Industry :',row['industry'])
-                print('Job resposibilities :',row['job resposibilities'])
-                print('Job requirements :',row['job requirements'])
-                print('--------------------------------------------------------------------------------------------------')
+                print(row['jobdescription'])
+                print('-----------------------------------------------------------------')
                 i+=1
         if(i==0):
+
             print("NO RESULTS FOUND")
+
 
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
