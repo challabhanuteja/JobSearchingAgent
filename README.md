@@ -1,4 +1,5 @@
 # JobSearchingAgent
-An agent which can search job as per your skills and requirements
-Resources:
-https://www.naukri.com/premium-jobs-for-iit-engineering-graduates-in-all-jobs?premType=premengg
+This is an agent which will search job for you as per your key skills, Location, Work Experince, Expected Salary, Educational Qualifications.
+GUI of this project is created with "PAGE - Python Automatic GUI Generator"
+The dataset(from which we are fetching job data) is downloaded from  https://www.kaggle.com/PromptCloudHQ/jobs-on-naukricom/version/1?
+This is a simple college project on AI.
